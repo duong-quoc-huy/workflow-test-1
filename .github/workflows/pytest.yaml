@@ -49,7 +49,10 @@ jobs:
 
       - name: Run pytest
         run: pytest
-      
+
+      - name: Failure Log
+        if: failure()
+        run: echo "The previous step failed"      
       - name: Print DB_USER
         run: echo "DB_USER -> ${DB_USER}" 
 
