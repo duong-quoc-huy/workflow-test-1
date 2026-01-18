@@ -1,0 +1,50 @@
+name: Run Pytest
+
+on:
+  pull_request:
+    branches: ["main"]
+    #explanation: the "branches" is used for defining which branch you want to make a pull request.
+    # if you have multiple branches use this: ["main", "staging", "dev"]
+
+
+#Code for making push. uncomment code below to use
+# on:
+#   push:
+#     branches: ["main"]
+
+
+#Code for making schedule. which is used for running  regularly. uncomment code below to use
+# on:
+#   schedule:
+#     - cron: "0 0 * * *"
+
+# Explanation: the cron is counted from left right. it means: cron: "minutes hours days months weekdays"
+# If there this an asterisk in the cron, it means "all". For e.g: cron: "10 * * * *", it means it will run at 10 minutes past every hour.
+# If a number is written, it will be executed at the timing that matches that number. For e.g: cron: "10 12 * * *", it means it will run everyday at 12:10
+# Note: in weekdays: 0 is Sunday, 1 is Monday, 2 is Tuesday, 3 is Wednesday, 4 is Thursday, 5 is Friday and 6 is Saturday
+
+
+# Explanation for jobs. A single workflow can have multiple jobs set up, so the idea is to name and manage each of those jobs individually.
+jobs:
+  test:
+    # There are 2 types of runner in runs-on GitHub-hosted runner and self-hosted runner
+    # In runs-on: we can use in other OS: windows-latest(Windows), macos-latest(MacOS)
+    runs-on: ubuntu-latest
+
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+
+        with:
+          python-version: 3.14
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run pytest
+        run: pytest
+
